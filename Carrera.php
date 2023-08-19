@@ -1,5 +1,5 @@
 <?php
-
+require_once('Kits.php');
 class Carrera {
 
     private $id;
@@ -19,6 +19,17 @@ class Carrera {
         $this->kits = $kits;
     }
 
+    public function toArray(){
+        $arreglo = array( 
+            "id" => $this->id,
+            "nombre" => $this->nombre,
+            "circuito" => $this->circuito,
+            "fecha" => $this->fecha,
+            "precio" => $this->precio,
+            "kits" => $this->kits->toArray());
+
+        return $arreglo;
+       }
    
 
     /**

@@ -1,45 +1,47 @@
 <?php
-require_once('carreras.php');
+require_once('Carrera.php');
+require_once('ArrayIdManager.php');
 
-class CarreraManager {
-    private $carreras;
-    static $ids = 0;
 
-    // Constructor
-    public function __construct(){
-        $this->carreras = [];
+
+
+class CarreraManager extends ArrayIdManager{
+    
+	// Agregar carreras  ($id,$nombre,$circuito,$fecha,$precio,$kits
+	public function cargaInicial(){
+    	self::agregar(new Carrera(self::getNuevoId(),'Desafio del Lago', 'el dique','04/06/2023','$5000', new Kits()));
+    	self::agregar(new Carrera(self::getNuevoId(),'Desafio de las Animas', 'las animas','04/07/2023','$7000',new Kits()));
+    	self::agregar(new Carrera(self::getNuevoId(),'Pioneros', 'Los pioneros','03/08/2023','$3000',new Kits()));
+    	
+   } 	
+    
+   public function getJSON() {
+    $jsonCarrera = [];
+    $carrera = $this->getArreglo();
+
+    foreach ($carrera as $carrera) {
+        $jsonCarrera[] = $carrera->toArray(); // Asumiendo que tienes un método "toArray()" en la clase Atleta
     }
 
-       
-    // Agregar un nuevo carrera
-    public function agregarcarrera($carrera) {
-        $this->carreras[] = $carrera;
-        self::$ids ++; 
-    }
+    $jsonString = json_encode($jsonCarrera, JSON_PRETTY_PRINT);
 
+    $ids = $this->getIds(); // Supongo que esta función devuelve una cadena JSON válida con los IDs
 
-    /**
-     * Get the value of ids
-     */ 
-    public function getIds()
-    {
-        return self::$ids;
-    }
+    $finalJson = [
+        "Carrera" => $jsonCarrera,
+        "ids" => json_decode($ids) // Decodificar la cadena JSON de IDs
+    ];
 
-    // Eliminar un carrera por su ID
-    public function eliminarcarrera($id) {
-        foreach ($this->carreras as $key => $carrera) {
-            if ($carrera->getId() === $id) {
-                unset($this->carreras[$key]);
-                break;
-            }
-        }
-    }
-
+    return json_encode($finalJson, JSON_PRETTY_PRINT);
+}
+    
+   
+   
     // Actualizar los datos de un carrera por su ID
-    public function actualizarcarrera($id, $nombre, $circuito,$fecha,$precio,$kits) {
-        foreach ($this->carreras as $carrera) {
-            if ($carrera->getId() === $id) {
+    public function actualizarCarrera($id, $nombre, $circuito,$fecha,$precio,$kits) {
+	 	$carreras = self::getArreglo();        
+      	foreach ($carreras as $carrera) {
+      	   if ($carrera->getId() === $id) {
                 $carrera->setNombre($nombre);
                 $carrera->setCircuito($circuito);
                 $carrera->setFecha($fecha);
@@ -49,48 +51,51 @@ class CarreraManager {
             }
         }
     }
+    
 
-    // Obtener todos los carreras
-    public function obtenercarreras() {
-        return $this->carreras;
+   
+   //Del archivo de texto crea el arreglo de carreras co carreras ya existentes   
+   public function setJSON($datos){
+         $carreras = $jsonDatos->carreras;
+            foreach ($carreras as $carrera) {
+                $kits = $carrera->kits;
+                $nuevoKits = new Kits($kits->chip,$kits->numero,$kits->remera,$kits->medalla);      
+                $nuevaCarrera = new Carrera($carrera->id,$carrera->nombre, $carrera->circuito,$carrera->fecha,$carrera->precio,$nuevoKits);
+                $this->agregarJSON($nuevaCarrera);
+            }
+    
+    }   
+   
+   public function mostrarCarreras(){
+		$carreras = self::getArreglo();
+      foreach ($carreras as $carrera) {
+    		echo "ID: " . $carrera->getId() . ", Nombre: " . $carrera->getNombre() . ", Circuito: " . $carrera->getCircuito() .", Fecha: " . $carrera->getFecha() . ", Precio: " .$carrera->getPrecio();
+            echo(PHP_EOL);
+            $carrera->getKits()->mostrar();
+            echo(PHP_EOL);
+      }    
+      echo(PHP_EOL);
     }
+
+    
 }
 
-
+/*
 //Main para probar
 // Crear el objeto del Administrador de carrera
+
 $carreraManager2 = new carreraManager();
+$carreraManager2->cargaInicial();
 
-// Agregar carreras  ($id,$nombre,$circuito,$fecha,$precio,$kits
-$carrera1 = new carrera(1,'Desafio del Lago', 'el dique','04/06/2023','$5000', null);
-$carrera2 = new carrera(2,'Desafio de las Animas', 'las animas','04/07/2023','$7000',null);
-$carrera3 = new carrera(3,'Pioneros', 'Los pioneros','03/08/2023','$3000',null);
-
-$carreraManager2->agregarcarrera($carrera1);
-$carreraManager2->agregarcarrera($carrera2);
-$carreraManager2->agregarcarrera($carrera3);
-
-// Obtener todos los carrera
-$carreras = $carreraManager2->obtenercarreras();
-foreach ($carreras as $carrera) {
-    echo "ID: " . $carrera->getId() . ", Nombre: " . $carrera->getNombre() . ", Fecha: " . $carrera->getFecha() . ", Precio: " .$carrera->getPrecio();
-    echo(PHP_EOL);
-}
+$carreraManager2->mostrarCarreras();
 
 // Actualizar un carrera $id, $nombre, $circuito,$fecha,$precio,$kits
-$carreraManager2->actualizarcarrera(2, 'super Desafio', 'la cascada','14/08/2001','$5000','remera');
+$carreraManager2->actualizarcarrera(1, 'super Desafio', 'la cascada','14/08/2001','$5000','remera');
 
 // Eliminar un carrera
-$carreraManager2->eliminarcarrera(3);
+$carreraManager2->eliminarPorId(2);
 
 // Mostrar carreras después de la actualización y eliminación
-$carreras = $carreraManager2->obtenercarreras();
-echo("carreras después de la actualización y eliminación:");
-echo(PHP_EOL);
-// Obtener todos los carrera
-$carreras = $carreraManager2->obtenercarreras();
-foreach ($carreras as $carrera) {
-    echo "ID: " . $carrera->getId() . ", Nombre: " . $carrera->getNombre() . ", Fecha: " . $carrera->getFecha() . ", Precio: " .$carrera->getPrecio();
-    echo(PHP_EOL);
-}
-
+$carreraManager2->mostrarCarreras();
+*/
+?>

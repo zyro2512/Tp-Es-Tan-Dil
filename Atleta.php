@@ -10,8 +10,18 @@ class Atleta {
         $this->id = $id;
         $this->nombre = $nombre;
         $this->email = $email;
-        $this->fechaNacimiento =  DateTime::createFromFormat('d/m/y', $fechaNacimiento);
-    }
+        $this->fechaNacimiento = new DateTime(date("d-m-Y"));
+        $this->fechaNacimiento = DateTime::createFromFormat('d/m/Y',$fechaNacimiento);
+   }
+
+   public function toArray(){
+    $arreglo = array( 
+        "id" => $this->id,
+        "nombre" => $this->nombre,
+        "email" => $this->email,
+        "FechadeNacimiento" => $this->fechaNacimiento);
+    return $arreglo;
+   }
 
     // Getters y Setters
     public function getId() {
@@ -31,7 +41,7 @@ class Atleta {
     }
 
     public function getEdad(){
-        $nacimiento = new DateTime($this->fechaNacimiento);
+        $nacimiento = $this->fechaNacimiento;
         $ahora = new DateTime(date("d-m-Y"));
         $diferencia = $ahora->diff($nacimiento);
         return $diferencia->format("%y");
@@ -45,4 +55,8 @@ class Atleta {
     public function setEmail($email) {
         $this->email = $email;
     }
-};
+
+    public function setFechaNacimiento($fechaNacimiento){
+        $this->fechaNacimiento = $fechaNacimiento;      
+    }
+}

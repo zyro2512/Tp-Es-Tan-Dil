@@ -1,0 +1,44 @@
+{
+    "Carrera": [
+        {
+            "id": 1,
+            "nombre": "Desafio del Lago",
+            "circuito": "el dique",
+            "fecha": "04\/06\/2023",
+            "precio": "$5000",
+            "kits": {
+                "chip": false,
+                "numero": false,
+                "remera": false,
+                "medalla": false
+            }
+        },
+        {
+            "id": 2,
+            "nombre": "Desafio de las Animas",
+            "circuito": "las animas",
+            "fecha": "04\/07\/2023",
+            "precio": "$7000",
+            "kits": {
+                "chip": false,
+                "numero": false,
+                "remera": false,
+                "medalla": false
+            }
+        },
+        {
+            "id": 3,
+            "nombre": "Pioneros",
+            "circuito": "Los pioneros",
+            "fecha": "03\/08\/2023",
+            "precio": "$3000",
+            "kits": {
+                "chip": false,
+                "numero": false,
+                "remera": false,
+                "medalla": false
+            }
+        }
+    ],
+    "ids": 3
+}

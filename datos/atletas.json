@@ -1,0 +1,45 @@
+{
+    "atletas": [
+        {
+            "id": 1,
+            "nombre": "Juan",
+            "email": "juan@example.com",
+            "FechadeNacimiento": {
+                "date": "1999-06-04 22:24:43.000000",
+                "timezone_type": 3,
+                "timezone": "Europe\/Berlin"
+            }
+        },
+        {
+            "id": 2,
+            "nombre": "Mar\u00eda",
+            "email": "maria@example.com",
+            "FechadeNacimiento": {
+                "date": "2000-08-14 22:24:43.000000",
+                "timezone_type": 3,
+                "timezone": "Europe\/Berlin"
+            }
+        },
+        {
+            "id": 3,
+            "nombre": "Pedro",
+            "email": "pedro@example.com",
+            "FechadeNacimiento": {
+                "date": "1992-03-12 22:24:43.000000",
+                "timezone_type": 3,
+                "timezone": "Europe\/Berlin"
+            }
+        },
+        {
+            "id": 4,
+            "nombre": "Jos\u00e9",
+            "email": "jose@gmail.com",
+            "FechadeNacimiento": {
+                "date": "2001-03-12 22:24:43.000000",
+                "timezone_type": 3,
+                "timezone": "Europe\/Berlin"
+            }
+        }
+    ],
+    "ids": 4
+}
