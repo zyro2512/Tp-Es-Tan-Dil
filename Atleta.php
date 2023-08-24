@@ -19,7 +19,7 @@ class Atleta {
         "id" => $this->id,
         "nombre" => $this->nombre,
         "email" => $this->email,
-        "FechadeNacimiento" => $this->fechaNacimiento);
+        "FechaNacimiento" => $this->fechaNacimiento);
     return $arreglo;
    }
 
